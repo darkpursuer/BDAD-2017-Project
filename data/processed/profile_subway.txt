@@ -1,0 +1,7 @@
+Subway data profile
+ 
+Columns:
+OBJECTID Int - The id of the table
+the_geom coordinates - the geo coordinates of each subway station
+ 
+Number of stations: 1928

@@ -1,0 +1,54 @@
+Air Quality Data Profle
+ 
+Columns:
+geo_entity_id Int - The location entity id
+geo_entity_name String - The location description
+data_valuemessage Float - The average pm 2.5 concentration value
+ 
+All geo_entity_ids:
+101
+102
+103
+104
+105
+106
+107
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+501
+502
+503
+504
+ 
+value range:
+max = 14.9
+min = 8.9
