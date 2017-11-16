@@ -41,8 +41,12 @@ For the aspect of crime, Devin (2012) <sup>[3]</sup> gave a good experiment on t
 In addition, Agostini (2008) <sup>[5]</sup> presented his conclusion that building new metro lines will prompt the surrounding housing prices to rise in his paper. He also considered various factors inluding the distance to clinic, school and metro stations, which is a good and useful estimation for us to estimate the scores of distance of houses to nearest metro stations in our study.
 
 ## Design
+As shown in Figure 1, when the data is uploaded from the front side, we first transfer it to the spark nodes to let them read and preprocess the input data. Each type of data has different type of preprocess. Then we put the refined data into the database so that the users can easily view the uploaded data. Then in the service layer, the data will be calculated as each score and then the program will adjust the linear model with these scores. Finally, all the parameters and the scores will also be put into the database.
 
-![alt text](https://github.com/billg1990/nyu-bigdata-application-project/blob/master/Data%20Flow.jpg)
+> ![alt text](https://github.com/billg1990/nyu-bigdata-application-project/blob/master/Data%20Flow.jpg)
+> Figure 1
+
+With the predicted housing prices calculated by the models, we can use them to give suggestion. 
 
 ## References
 [1] Glaeser, Edward L., Joseph Gyourko, and Raven Saks. Why have housing prices gone up?. No. w11129. National Bureau of Economic Research, 2005.
