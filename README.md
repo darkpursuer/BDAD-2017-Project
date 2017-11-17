@@ -1,5 +1,5 @@
 # nyu-bigdata-application-project
-2017 Fall
+A study on the relationship between housing prices and the air quality, metro stations and crimes in NYC
 
 ## Useful Links
 
