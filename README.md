@@ -8,3 +8,9 @@ A study on the relationship between housing prices and the air quality, metro st
 [BBL Info Download](http://chriswhong.github.io/plutoplus)
 
 [UHF42 to zip code](https://www.health.ny.gov/statistics/cancer/registry/appendix/neighborhoods.htm)
+
+## Note
+In order to do `maven package`, we need to set `JAVA_HOME` point to `1.7`.
+```bash
+export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
+```
