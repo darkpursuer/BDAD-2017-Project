@@ -5,6 +5,7 @@
  * This file contains some util methods
  * related to geo calculation
  */
+package edu.nyu.bdad.tkyz.utils
 
 import scala.math._
 

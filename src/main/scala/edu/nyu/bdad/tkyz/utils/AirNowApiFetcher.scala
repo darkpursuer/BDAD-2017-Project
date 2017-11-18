@@ -6,6 +6,7 @@
  * air quality data from AirNow
  * https://docs.airnowapi.org/webservices
  */
+package edu.nyu.bdad.tkyz.utils
 
 import scala.util.parsing.json._
 import scala.util.control.Breaks._
