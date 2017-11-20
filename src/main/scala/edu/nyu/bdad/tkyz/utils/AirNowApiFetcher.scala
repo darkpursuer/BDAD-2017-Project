@@ -9,7 +9,7 @@
 package edu.nyu.bdad.tkyz.utils
 
 import scala.util.parsing.json._
-import scala.util.control.Breaks._
+import scala.io.Source
 import java.net.{URL, HttpURLConnection}
 
 // a bunch of classes that used to extract a JSON object
@@ -47,21 +47,21 @@ object AirNowApiFetcher {
   @throws(classOf[java.net.SocketTimeoutException])
   def getAQIByDateAndGeo(year: Int, month: Int, day: Int, lat: Double, lon: Double): Double = {
     // parse date to a 'yyyy-mm-ddT00-0000' string
-    val date = f"${year}%04d-${month}%02d-${day}%02dT00-0000"
+    val date = f"$year%04d-$month%02d-$day%02dT00-0000"
     // the api only takes 4 digits after float point
-    val latitude = f"${lat}%.4f"
-    val longitude = f"${lon}%.4f"
+    val latitude = f"$lat%.4f"
+    val longitude = f"$lon%.4f"
     // construct the url
-    val url = baseUrl + s"&latitude=${latitude}&longitude=${longitude}&date=${date}&API_KEY=${apiKey}"
+    val url = baseUrl + s"&latitude=$latitude&longitude=$longitude&date=$date&API_KEY=$apiKey"
 
     // set up connection
-    val connection = (new URL(url)).openConnection.asInstanceOf[HttpURLConnection]
+    val connection = new URL(url).openConnection.asInstanceOf[HttpURLConnection]
     connection.setConnectTimeout(10000) // set timeout to both 10 seconds
     connection.setReadTimeout(10000)
     connection.setRequestMethod("GET") // this only works with GET method
     val inputStream = connection.getInputStream
-    val content = io.Source.fromInputStream(inputStream).mkString // call url
-    if (inputStream != null) inputStream.close
+    val content = Source.fromInputStream(inputStream).mkString // call url
+    if (inputStream != null) inputStream.close()
     
     // parse json string into an object
     // which is a list of tuples
@@ -83,7 +83,7 @@ object AirNowApiFetcher {
       }
     }
     // return -1 if no PM2.5 AQI found
-    return -1.0
+    -1.0
   }
 
   // def main(args: Array[String]): Unit = {

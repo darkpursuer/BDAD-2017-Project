@@ -3,13 +3,18 @@
 // This code can clean the crimes and property values data
 package edu.nyu.bdad.tkyz.utils
 
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{DataFrame, SQLContext}
 import org.apache.spark.rdd.RDD
+
 import scala.util.Try
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
+import org.apache.spark.SparkContext
 
 object Clean {
+
+  val sc = new SparkContext
+  val sqlContext = new SQLContext(sc)
 
 	def main(args: Array[String]){
 		val crimePath = args(0)
@@ -44,7 +49,7 @@ object Clean {
 		clean(v_df, v_needIndex).saveAsTextFile(v_output)
 	}
 
-	def clean(df: DataFrame, indices: Array[Int]) : RDD[Any] = {
+	def clean(df: DataFrame, indices: Array[Int]) : RDD[Array[String]] = {
 		val filtered = df.rdd.map(e => indices.map(e1 => e.get(e1).toString))
 		val nonempty = filtered.filter(e => {
 			var hasEmpty = false

@@ -4,13 +4,18 @@
 
 package edu.nyu.bdad.tkyz.utils
 
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{DataFrame, SQLContext}
 import org.apache.spark.rdd.RDD
+
 import scala.util.Try
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
+import org.apache.spark.SparkContext
 
 object Profile {
+
+	val sc = new SparkContext
+	val sqlContext = new SQLContext(sc)
 	
 	def main(args: Array[String]) {
 		val crimePath = args(0)

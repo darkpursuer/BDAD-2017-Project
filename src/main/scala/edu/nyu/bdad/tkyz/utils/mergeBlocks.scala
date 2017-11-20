@@ -7,8 +7,11 @@ package edu.nyu.bdad.tkyz.utils
 import scala.collection.mutable.ListBuffer
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
+import org.apache.spark.SparkContext
 
 object MergeBlocks{
+
+	val sc = new SparkContext
 
 	def main(args: Array[String]) {
 
