@@ -27,10 +27,10 @@ object AirNowApiFetcher {
 
   // the base API url, return format is set to json
   // this is hard coded, may need to change if the api is changed
-  val baseUrl = "http://www.airnowapi.org/aq/observation/latLong/historical?format=application/json"
+  val baseUrl = "http://www.airnowapi.org/aq/observation/zipCode/historical?format=application/json"
   // the api key of the service
   // the service is currently free, but we do need to register an account to have a key
-  val apiKey = "COPY_API_KEY_HERE"
+  val apiKey = "API_KEY"
 
   /**
    * Input: year : Int
@@ -45,14 +45,12 @@ object AirNowApiFetcher {
    */
   @throws(classOf[java.io.IOException])
   @throws(classOf[java.net.SocketTimeoutException])
-  def getAQIByDateAndGeo(year: Int, month: Int, day: Int, lat: Double, lon: Double): Double = {
+  def getAQIByDateAndGeo(year: Int, month: Int, day: Int, zip: String): Double = {
     // parse date to a 'yyyy-mm-ddT00-0000' string
     val date = f"$year%04d-$month%02d-$day%02dT00-0000"
-    // the api only takes 4 digits after float point
-    val latitude = f"$lat%.4f"
-    val longitude = f"$lon%.4f"
     // construct the url
-    val url = baseUrl + s"&latitude=$latitude&longitude=$longitude&date=$date&API_KEY=$apiKey"
+    val url = baseUrl + s"&zipCode=$zip&date=$date&distance=25&API_KEY=$apiKey"
+    println(url)
 
     // set up connection
     val connection = new URL(url).openConnection.asInstanceOf[HttpURLConnection]
@@ -76,6 +74,8 @@ object AirNowApiFetcher {
       (aqi, parameter)
     }
 
+    println(results)
+
     // return the one with PM2.5
     for (r <- results) {
       if (r._2 == "PM2.5") {
@@ -86,9 +86,9 @@ object AirNowApiFetcher {
     -1.0
   }
 
-  // def main(args: Array[String]): Unit = {
-  //   // some calls for testing
-  //   println(getAQIByDateAndGeo(2017, 11, 17, 40.7855, -73.9683))
-  // }
+//   def main(args: Array[String]): Unit = {
+//     // some calls for testing
+//     println(getAQIByDateAndGeo(2010, 2, 1, "07302"))
+//   }
 
 }
