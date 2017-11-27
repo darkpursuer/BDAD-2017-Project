@@ -17,5 +17,5 @@ export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
 
 To run the scala codes, we need to enter the spark shell by 
 ```bash
-		$ spark-shell --packages com.databricks:spark-csv_2.11:1.5.0
+$ spark-shell --packages com.databricks:spark-csv_2.11:1.5.0
 ```
