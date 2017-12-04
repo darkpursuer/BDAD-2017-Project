@@ -2,22 +2,21 @@
 // Copyright 2017 Yi Zhang and Taikun Guo
 // This code can clean and merge the block geom data
 
+// The data structure after processing should be like:
+// RDD[(Int, Int, String, String)]
+// RDD[(BlockNo, Area, Zips, Geoms)]
+
 package edu.nyu.bdad.tkyz.utils
 
 import scala.collection.mutable.ListBuffer
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
-import org.apache.spark.SparkContext
 
-object MergeBlocks{
+object MergeBlocks extends java.io.Serializable{
 
-	val sc = new SparkContext
-
-	def main(args: Array[String]) {
+	def run(input: String, bb_output: String) {
 
 		// preprocess and merge the BBL data
-		val input = args(0)
-		val bb_output = args(1)
 		
 		// val input = "/user/yz3940/bdad/project/data/bbl_raw.txt"
 		// val bb_output = "/user/yz3940/bdad/project/data/bb"

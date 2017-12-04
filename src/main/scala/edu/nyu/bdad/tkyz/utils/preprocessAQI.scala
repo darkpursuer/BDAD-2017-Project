@@ -54,7 +54,12 @@ object PreprocessAQI extends java.io.Serializable{
 		})
 		
 		val aqiMap = yearAvg.collectAsMap + {0 -> averages.toList}
-		val blockAqi = blocks.mapValues(e => e.map(e1 => aqiMap(e1)).reduceLeft(_++_).groupBy(_._1).map(e1 => {
+		val blockAqi = blocks.mapValues(e => e.map(e1 => {
+			if(aqiMap.exists(_._1 == e1))
+				aqiMap(e1)
+			else
+				averages.toList
+		}).reduceLeft(_++_).groupBy(_._1).map(e1 => {
 			val tmp = e1._2.map(e2 => (1, e2._2)).reduceLeft((x, y) => (x._1 + y._1, x._2 + y._2))
 			(e1._1, tmp._2.toDouble / tmp._1)
 		}).toList.sortBy(_._1))

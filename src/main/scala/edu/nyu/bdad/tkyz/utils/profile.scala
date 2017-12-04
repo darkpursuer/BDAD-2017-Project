@@ -4,23 +4,15 @@
 
 package edu.nyu.bdad.tkyz.utils
 
-import org.apache.spark.sql.{DataFrame, SQLContext}
+import org.apache.spark.sql.DataFrame
 import org.apache.spark.rdd.RDD
-
 import scala.util.Try
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
-import org.apache.spark.SparkContext
 
 object Profile {
-
-	val sc = new SparkContext
-	val sqlContext = new SQLContext(sc)
 	
-	def main(args: Array[String]) {
-		val crimePath = args(0)
-		val valuesPath = args(1)
-		val outputPathPrefix = args(2)
+	def run(crimePath: String, valuesPath: String, outputPathPrefix: String) {
 		
 		//val crimePath = "/user/yz3940/bdad/project/data/complaints.csv"
 		//val valuesPath = "/user/yz3940/bdad/project/data/properties_values.csv"

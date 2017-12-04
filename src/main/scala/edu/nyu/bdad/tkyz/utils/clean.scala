@@ -9,15 +9,14 @@ import scala.util.Try
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
 
-object Clean {
+object Clean extends java.io.Serializable{
 
-	def run(airFile: String, subFile: String, crimePath: String, valuesPath: String, outputPathPrefix: String){
+	def run(subFile: String, crimePath: String, valuesPath: String, outputPathPrefix: String): List[String] = {
 
 		// val crimePath = "/user/yz3940/bdad/project/data/complaints.csv"
 		// val valuesPath = "/user/yz3940/bdad/project/data/properties_values.csv"
 		// val outputPathPrefix = "/user/yz3940/bdad/project/data/cleaned"
 		
-		val a_output = outputPathPrefix + "_air"
 		val s_output = outputPathPrefix + "_subway"
 		val c_output = outputPathPrefix + "_crime"
 		val v_output = outputPathPrefix + "_values"
@@ -30,14 +29,10 @@ object Clean {
 		if(hdfs.exists(new Path(v_output))){
 			hdfs.delete(new Path(v_output), true)
 		}
-		if(hdfs.exists(new Path(a_output))){
-			hdfs.delete(new Path(a_output), true)
-		}
 		if(hdfs.exists(new Path(s_output))){
 			hdfs.delete(new Path(s_output), true)
 		}
 		
-		val a_csv = sqlContext.load("com.databricks.spark.csv", Map("path" -> airFile, "header" -> "true"))
 		val s_csv = sqlContext.load("com.databricks.spark.csv", Map("path" -> subFile, "header" -> "true"))
 		val c_df = sqlContext.load("com.databricks.spark.csv", Map("path" -> crimePath, "header" -> "true"))
 		val v_df = sqlContext.load("com.databricks.spark.csv", Map("path" -> valuesPath, "header" -> "true"))
@@ -48,25 +43,14 @@ object Clean {
 		clean(c_df, c_needIndex).map(_.mkString(",")).saveAsTextFile(c_output)
 		
 		// clean the values data
-		val v_needIndex = Array(0, 6, 7, 8, 9, 10, 11, 48, 63)
+		// BBLE, District, Year, CUR_FV_L, CUR_FV_T, NEW_FV_L, NEW_FV_T, ZipCode, LND_AREA, GR_SQFT
+		val v_needIndex = Array(0, 6, 7, 8, 9, 10, 11, 48, 62, 63)
 		clean(v_df, v_needIndex).map(_.mkString(",")).saveAsTextFile(v_output)
 		
 		// convert into RDDs
-		val a_data = a_csv.rdd
 		val s_data = s_csv.rdd
 
 		// clean
-		val a_filtered = a_data.filter(
-		  e =>
-			e(1).toString.trim.toInt == 662 // keep only pm2.5
-			&& e(4).toString.trim == "UHF42" // keep UHF42 area data
-		).map(
-		  e => (
-			e(5), // geo_entity_id
-			e(6), // geo_entity_name
-			e(8) // value
-		  )
-		)
 		val s_filtered = s_data.filter(
 		  e =>
 			(!e(0).toString.trim.isEmpty)
@@ -80,8 +64,9 @@ object Clean {
 		)
 
 		// store
-		a_filtered.saveAsTextFile(a_output)
 		s_filtered.saveAsTextFile(s_output)
+		
+		return List(s_output, c_output, v_output)
 	}
 
 	def clean(df: DataFrame, indices: Array[Int]) : RDD[Array[String]] = {
