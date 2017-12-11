@@ -16,8 +16,8 @@ object App {
     // create spark context
     // use local for now
     val conf = new SparkConf().setAppName("BDADProject").set("spark.driver.host", "localhost")
-    conf.set("spark.testing.memory", "2147480000")
     val sc = new SparkContext(conf)
+    sc.setLogLevel("ERROR")
 
     // input arguments
     val pathPrefix = args(0)
