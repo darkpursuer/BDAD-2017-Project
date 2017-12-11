@@ -16,7 +16,7 @@ The application didn't include some of our data cleaning scripts and data fetchi
 - spark 1.6
 - Maven 3.5.2
 
-We use this configuration since Cloudera use Spark 1.6, so we have to set the other softwares to the compatitable versions.
+We use this configuration since Cloudera and Dumbo use Spark 1.6, so we have to set the other softwares to the compatitable versions.
 
 Now build the code using Maven.
 ```bash
@@ -36,8 +36,10 @@ And the compiled jar file will be `target/uber-finalproject-1.0-SNAPSHOT.jar`.
 
 Now run the application.
 ```bash
+# run the app with 4 cores and 16 G memory.
+# <path_to_datasets> is the directory created earlier
 spark-submit --packages com.databricks:spark-csv_2.10:1.5.0 \
---class edu.nyu.bdad.tkyz.App --master local  \
+--class edu.nyu.bdad.tkyz.App --master local[4] --executor-memory 16G \
 target/uber-finalproject-1.0-SNAPSHOT.jar <path_to_datasets>
 ```
 > The application should run about 10 minutes on Dumbo or more depends on how many RAM.
