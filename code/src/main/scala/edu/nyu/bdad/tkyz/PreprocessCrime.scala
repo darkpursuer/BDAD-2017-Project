@@ -11,26 +11,23 @@ package edu.nyu.bdad.tkyz
 import org.apache.spark.rdd.RDD
 import org.apache.spark.SparkContext
 
-class PreprocessCrime(sContext: SparkContext, d: Double) extends java.io.Serializable{
-
-  // basic parameters
-  val sc = sContext
-  val radius = d  // mile
-  val latDeg = radius / 68.6864
-  val radianConvertor = Math.PI / 180
-  val crimeScore = Map("MISDEMEANOR" -> 1, "VIOLATION" -> 2, "FELONY" -> 3)
+object PreprocessCrime extends java.io.Serializable{
 
   // check whether the target point is in range of the origin
-  def inRange(origin: (Double, Double), target: (Double, Double)): Boolean = {
+  def inRange(radius: Double, radianConvertor: Double, latDeg: Double, origin: (Double, Double), target: (Double, Double)): Boolean = {
     val longDeg = radius / (Math.cos(origin._1 * radianConvertor) * 69.1710)
     val gap = (Math.abs(target._1 - origin._1), Math.abs(target._2 - origin._2))
     return gap._1 <= latDeg && gap._2 <= longDeg
   }
 
-  def run(input: String, blockinput: String): RDD[(Int, List[(Int, Int)])] = {
+  def run(sContext: SparkContext, d: Double, input: String, blockinput: String): RDD[(Int, List[(Int, Int)])] = {
 
-    // val input = "bdad/project/data/cleaned_crime"
-    // val blockinput = "/user/yz3940/bdad/project/data/bb"
+    // basic parameters
+    val sc = sContext
+    val radius = d  // mile
+    val latDeg = radius / 68.6864
+    val radianConvertor = Math.PI / 180
+    val crimeScore = Map("MISDEMEANOR" -> 1, "VIOLATION" -> 2, "FELONY" -> 3)
 
     val rdd = sc.textFile(input, 100).map(e => {
       val splits = e.split(",")
@@ -53,7 +50,7 @@ class PreprocessCrime(sContext: SparkContext, d: Double) extends java.io.Seriali
     })
 
     val blockGeoms = blocks.collect
-    val blockScores = rdd.map(e => (blockGeoms.filter(e1 => inRange(e1._1, e._1)).map(_._2).toList, e._2)).flatMap(e => e._1.map(e1 => (e1, List(e._2)))).reduceByKey(_++_).mapValues(e => e.groupBy(_._1).map(e1 => (e1._1, e1._2.map(_._2).reduceLeft(_+_))).toList)
+    val blockScores = rdd.map(e => (blockGeoms.filter(e1 => inRange(radius, radianConvertor, latDeg, e1._1, e._1)).map(_._2).toList, e._2)).flatMap(e => e._1.map(e1 => (e1, List(e._2)))).reduceByKey(_++_).mapValues(e => e.groupBy(_._1).map(e1 => (e1._1, e1._2.map(_._2).reduceLeft(_+_))).toList)
 
     return blockScores
   }

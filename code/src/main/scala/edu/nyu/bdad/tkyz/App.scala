@@ -15,7 +15,7 @@ object App {
   def main(args: Array[String]) {
     // create spark context
     // use local for now
-    val conf = new SparkConf().setAppName("BDADProject").setMaster("local").set("spark.driver.host", "localhost")
+    val conf = new SparkConf().setAppName("BDADProject").set("spark.driver.host", "localhost")
     conf.set("spark.testing.memory", "2147480000")
     val sc = new SparkContext(conf)
 
@@ -47,8 +47,7 @@ object App {
     // preprocess the data
     println("Start preprocessing the crime data sets...")
     val radius_c = 0.5
-    val pc = new PreprocessCrime(sc, radius_c)
-    val crimes = pc.run(outputs(1), block_output)
+    val crimes = PreprocessCrime.run(sc, radius_c, outputs(1), block_output)
 
     println("Start preprocessing the AQI data sets...")
     val aqis = PreprocessAQI.run(sc, aqiPath, block_output)

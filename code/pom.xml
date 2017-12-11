@@ -41,8 +41,8 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<!-- for fatjar -->
@@ -113,44 +113,47 @@
 		</pluginManagement>
 	</build>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.scala-lang/scala-library -->
 		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-core_2.11</artifactId>
-			<version>2.2.0</version>
+	    <groupId>org.scala-lang</groupId>
+	    <artifactId>scala-library</artifactId>
+	    <version>2.10.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-core_2.10</artifactId>
-			<version>1.6.3</version>
-			<scope>compile</scope>
+			<version>1.6.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
 		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-sql_2.10</artifactId>
-			<version>1.6.3</version>
-			<scope>compile</scope>
+	    <groupId>org.apache.spark</groupId>
+	    <artifactId>spark-sql_2.10</artifactId>
+	    <version>1.6.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-hive -->
 		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-hive_2.10</artifactId>
-			<version>1.6.3</version>
+	    <groupId>org.apache.spark</groupId>
+	    <artifactId>spark-hive_2.10</artifactId>
+	    <version>1.6.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-streaming -->
 		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-streaming_2.10</artifactId>
-			<version>1.6.3</version>
-			<scope>compile</scope>
+		  <groupId>org.apache.spark</groupId>
+		  <artifactId>spark-streaming_2.10</artifactId>
+		  <version>1.6.0</version>
+		  <scope>compile</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-streaming-kafka -->
 		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-streaming-kafka_2.10</artifactId>
-			<version>1.6.3</version>
-			<scope>compile</scope>
+		  <groupId>org.apache.spark</groupId>
+		  <artifactId>spark-streaming-kafka_2.10</artifactId>
+		  <version>1.6.3</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.databricks/spark-csv -->
 		<dependency>
-			<groupId>com.databricks</groupId>
-			<artifactId>spark-csv_2.11</artifactId>
-			<version>1.5.0</version>
+		  <groupId>com.databricks</groupId>
+		  <artifactId>spark-csv_2.10</artifactId>
+		  <version>1.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
@@ -159,8 +162,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-mllib_2.11</artifactId>
-			<version>2.2.0</version>
+			<artifactId>spark-mllib_2.10</artifactId>
+			<version>1.6.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
